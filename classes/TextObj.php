@@ -25,6 +25,7 @@ class TextObj implements TextObjInterface
 {
 
     private $data;
+    private $pathfile;
 
     public function __construct(string $pathfile = '')
     {
@@ -43,6 +44,8 @@ class TextObj implements TextObjInterface
             if ($file === false) throw new Exception(
                 __CLASS__." — unknown error occured while opening file.", -2
             );
+
+            $this->pathfile = $pathfile;
 
             $file = explode("\n", $file);
 
@@ -63,6 +66,13 @@ class TextObj implements TextObjInterface
             }
 
         }
+
+    }
+
+    public function data() : array
+    {
+
+        return $this->data;
 
     }
 

@@ -22,6 +22,11 @@ namespace DRNoisier;
 interface TextObjInterface
 {
 
-    
+    /**
+     * Returns all the data.
+     * 
+     * @return array
+     */
+    public function data();
 
 }
