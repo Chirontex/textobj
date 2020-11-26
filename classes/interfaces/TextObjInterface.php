@@ -29,4 +29,22 @@ interface TextObjInterface
      */
     public function data();
 
+    /**
+     * Returns header of the table.
+     * 
+     * @return array
+     */
+    public function header();
+
+    /**
+     * Returns the row.
+     * 
+     * @param int $row_number
+     * If $row_number is negative, the method will return a row from
+     * an end of the table.
+     * 
+     * @return array
+     */
+    public function rowGet(int $row_number);
+
 }

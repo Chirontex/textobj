@@ -76,4 +76,44 @@ class TextObj implements TextObjInterface
 
     }
 
+    public function header() : array
+    {
+
+        return array_keys($this->data);
+
+    }
+
+    public function rowGet(int $row_number) : array
+    {
+
+        $result = [];
+
+        $header = $this->header();
+
+        if ($row_number > 0) $row_number -= 1;
+        elseif ($row_number === 0) return $header;
+        else {
+
+            $rows = 0;
+
+            foreach ($this->data as $key => $value) {
+                
+                if (count($value) > $rows) $rows = count($value);
+
+            }
+
+            $row_number = $rows + ($row_number + 1);
+
+        }
+
+        foreach ($header as $column_name) {
+            
+            $result[$column_name] = $this->data[$column_name][$row_number];
+
+        }
+
+        return $result;
+
+    }
+
 }
