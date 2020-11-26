@@ -19,9 +19,51 @@
  */
 namespace DRNoisier;
 
+use Exception;
+
 class TextObj implements TextObjInterface
 {
 
-    
+    private $data;
+
+    public function __construct(string $pathfile = '')
+    {
+        
+        $this->data = [];
+
+        if (!empty($pathfile)) {
+
+            if (!file_exists($pathfile) ||
+                substr($pathfile, -4) !== '.txt') throw new Exception(
+                    __CLASS__." — incorrect file or file not exist.", -1
+                );
+
+            $file = file_get_contents($pathfile);
+
+            if ($file === false) throw new Exception(
+                __CLASS__." — unknown error occured while opening file.", -2
+            );
+
+            $file = explode("\n", $file);
+
+            $header = explode(';', trim(array_shift($file)));
+
+            foreach ($file as $row_number => $row_data) {
+                
+                $row_data = explode(';', trim($row_data));
+
+                foreach ($header as $column_number => $column_name) {
+                    
+                    $this->data[empty($column_name) ?
+                    $column_number :
+                    $column_name][(int)$row_number] = $row_data[(int)$column_number];
+
+                }
+
+            }
+
+        }
+
+    }
 
 }
