@@ -145,8 +145,10 @@ interface TableInterface
     /**
      * Output the data in HTML-table.
      * 
+     * @param string $classes
+     * 
      * @return string
      */
-    public function table();
+    public function table(string $classes = '');
 
 }
