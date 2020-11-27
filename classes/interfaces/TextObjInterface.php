@@ -93,4 +93,35 @@ interface TextObjInterface
      */
     public function countColumns();
 
+    /**
+     * Returns rows numbers based on conditions.
+     * 
+     * @param array $conds
+     * $conds structure must be like:
+     * [
+     * 
+     *  [column_name => value, ...],
+     * 
+     *  [...]
+     * 
+     * ]
+     * 
+     * Conditions united with logical AND must be in the one array.
+     * 
+     * Conditions united with logical OR must be in separate arrays.
+     * 
+     * @return array
+     */
+    public function where(array $conds);
+
+    /**
+     * Updates a specified row.
+     * 
+     * @param int $row_number
+     * @param array $values
+     * 
+     * @return void
+     */
+    public function update(int $row_number, array $values);
+
 }

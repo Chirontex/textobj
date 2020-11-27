@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.2
+ *    TextObj version 0.2.5
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -92,7 +92,7 @@ class TextObj implements TextObjInterface
 
         if ($row_number > 0) $row_number -= 1;
         elseif ($row_number === 0) return $header;
-        else $row_number = $this->countRows() + ($row_number + 1);
+        else $row_number = $this->countRows() + $row_number + 1;
 
         foreach ($header as $column_name) {
             
@@ -109,7 +109,7 @@ class TextObj implements TextObjInterface
 
         foreach ($values as $key => $value) {
             
-            if (isset($this->data[$key])) $this->data[$key][] = $value;
+            if (isset($this->data[$key])) $this->data[$key][] = (string)$value;
 
         }
 
@@ -176,6 +176,65 @@ class TextObj implements TextObjInterface
     {
 
         return count($this->data);
+
+    }
+
+    public function where(array $conds) : array
+    {
+
+        $result = [];
+
+        foreach ($conds as $suite) {
+
+            $suite_keys = array_keys($suite);
+            
+            $row_key = array_search((string)$suite[0], $this->data[$suite_keys[0]]);
+
+            if ($row_key !== false) {
+
+                $row_key += 1;
+
+                $row = $this->row($row_key);
+
+                $match = true;
+
+                foreach ($suite as $key => $value) {
+                    
+                    if ((string)$value !== $row[$key]) {
+
+                        $match = false;
+                        break;
+
+                    }
+
+                }
+
+                if ($match) $result[] = $row_key;
+
+            }
+
+        }
+
+        return $result;
+
+    }
+
+    public function update(int $row_number, array $values) : void
+    {
+
+        if ($row_number === 0) throw new Exception(
+            __CLASS__."::".__FUNCTION__.
+            "() — \$row_number argument points to the header.", -5
+        );
+
+        if ($row_number > 0) $row_number -= 1;
+        elseif ($row_number < 0) $row_number = $this->countRows() + $row_number + 1;
+
+        foreach ($values as $key => $value) {
+            
+            if (isset($this->data[$key])) $this->data[$key][$row_number] = $value;
+
+        }
 
     }
 
