@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.3
+ *    TextObj version 0.3.1
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -50,11 +50,11 @@ class Table implements TableInterface
 
             $file = explode("\n", $file);
 
-            $header = explode(';', trim(array_shift($file)));
+            $header = explode(';', htmlspecialchars_decode(trim(array_shift($file))));
 
             foreach ($file as $row_number => $row_data) {
                 
-                $row_data = explode(';', trim($row_data));
+                $row_data = explode(';', htmlspecialchars_decode(trim($row_data)));
 
                 foreach ($header as $column_number => $column_name) {
                     
@@ -302,7 +302,7 @@ class Table implements TableInterface
         foreach ($this->header() as $column_name) {
 
 ?>
-            <th><?= $column_name ?></th>
+            <th><?= htmlspecialchars($column_name) ?></th>
 <?php
 
         }
@@ -322,7 +322,7 @@ class Table implements TableInterface
             foreach ($this->header() as $column_name) {
                 
 ?>
-            <td><?= $this->data[$column_name][$i] ?></td>
+            <td><?= htmlspecialchars($this->data[$column_name][$i]) ?></td>
 <?php
 
             }
