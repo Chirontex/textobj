@@ -45,6 +45,15 @@ interface TextObjInterface
      * 
      * @return array
      */
-    public function rowGet(int $row_number);
+    public function row(int $row_number);
+
+    /**
+     * Add a new row in the end of the table.
+     * 
+     * @param array $values
+     * 
+     * @return void
+     */
+    public function push(array $values);
 
 }

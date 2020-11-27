@@ -83,7 +83,7 @@ class TextObj implements TextObjInterface
 
     }
 
-    public function rowGet(int $row_number) : array
+    public function row(int $row_number) : array
     {
 
         $result = [];
@@ -113,6 +113,17 @@ class TextObj implements TextObjInterface
         }
 
         return $result;
+
+    }
+
+    public function push(array $values) : void
+    {
+
+        foreach ($values as $key => $value) {
+            
+            $this->data[$key][] = $value;
+
+        }
 
     }
 
