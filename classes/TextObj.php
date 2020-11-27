@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.1
+ *    TextObj version 0.2
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -92,19 +92,7 @@ class TextObj implements TextObjInterface
 
         if ($row_number > 0) $row_number -= 1;
         elseif ($row_number === 0) return $header;
-        else {
-
-            $rows = 0;
-
-            foreach ($this->data as $key => $value) {
-                
-                if (count($value) > $rows) $rows = count($value);
-
-            }
-
-            $row_number = $rows + ($row_number + 1);
-
-        }
+        else $row_number = $this->countRows() + ($row_number + 1);
 
         foreach ($header as $column_name) {
             
@@ -121,9 +109,73 @@ class TextObj implements TextObjInterface
 
         foreach ($values as $key => $value) {
             
-            $this->data[$key][] = $value;
+            if (isset($this->data[$key])) $this->data[$key][] = $value;
 
         }
+
+    }
+
+    public function column($column_marker) : array
+    {
+
+        if (!is_string($column_marker) &&
+            !is_integer($column_marker)) throw new Exception(
+                __CLASS__."::".__FUNCTION__.
+                "() — invalid type of argument.", -3
+            );
+
+        $result = [];
+
+        if (isset($this->data[$column_marker])) $result = $this->data[$column_marker];
+
+        return $result;
+
+    }
+
+    public function insert(string $column_name, int $column_number = 0) : void
+    {
+
+        if (isset($this->data[$column_name])) throw new Exception(
+            __CLASS__."::".__FUNCTION__.
+            "() — this column already exists.", -4
+        );
+
+        if ($column_number === 0) $this->data[$column_name] = [];
+        else {
+
+            if ($column_number > 0) $column_number -= 1;
+            else $column_number = $this->countColumns() + $column_number;
+
+            $table_1 = array_slice($this->data, 0, $column_number, true);
+            $table_2 = array_slice($this->data, $column_number + 1, null, true);
+
+            $insertion = [$column_name => []];
+
+            $this->data = array_merge($table_1, $insertion, $table_2);
+
+        }
+
+    }
+
+    public function countRows() : int
+    {
+
+        $result = 0;
+
+        foreach ($this->data as $key => $value) {
+            
+            if (count($value) > $result) $result = count($value);
+
+        }
+
+        return $result;
+
+    }
+
+    public function countColumns() : int
+    {
+
+        return count($this->data);
 
     }
 

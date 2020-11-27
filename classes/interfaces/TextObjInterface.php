@@ -56,4 +56,41 @@ interface TextObjInterface
      */
     public function push(array $values);
 
+    /**
+     * Returns the column.
+     * 
+     * @param string|int $column_marker
+     * 
+     * @return array
+     */
+    public function column($column_marker);
+
+    /**
+     * Insert new column.
+     * 
+     * @param string $column_name
+     * If column with this name already exist in the table,
+     * the method will throw an Exception.
+     * @param int $column_number
+     * Periodic number of the new column. If $column_number = 0,
+     * new column will be added at the end of the table.
+     * 
+     * @return void
+     */
+    public function insert(string $column_name, int $column_number = 0);
+
+    /**
+     * Returns rows amount.
+     * 
+     * @return int
+     */
+    public function countRows();
+
+    /**
+     * Returns columns amount.
+     * 
+     * @return int
+     */
+    public function countColumns();
+
 }
