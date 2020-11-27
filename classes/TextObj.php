@@ -262,9 +262,7 @@ class TextObj implements TextObjInterface
 
         $data = implode(';', $header)."\n";
 
-        $rows_amount = $this->countRows();
-
-        for ($i = 0; $i < $rows_amount; $i++) {
+        for ($i = 0; $i < $this->countRows(); $i++) {
 
             $row = [];
 
@@ -288,6 +286,60 @@ class TextObj implements TextObjInterface
 
         return $this->save($pathfile);
 
+    }
+
+    public function table() : string
+    {
+
+        ob_start();
+
+?>
+<table>
+    <thead>
+        <tr>
+<?php
+
+        foreach ($this->header() as $column_name) {
+
+?>
+            <th><?= $column_name ?></th>
+<?php
+
+        }
+
+?>
+        </tr>
+    </thead>
+    <tbody>
+<?php
+
+        for ($i = 0; $i < $this->countRows(); $i++) {
+
+?>
+        <tr>
+<?php
+
+            foreach ($this->header() as $column_name) {
+                
+?>
+            <td><?= $this->data[$column_name][$i] ?></td>
+<?php
+
+            }
+
+?>
+        </tr>
+<?php
+
+        }
+
+?>
+    </tbody>
+</table>
+<?php
+
+        return ob_get_clean();
+        
     }
 
 }

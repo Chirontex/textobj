@@ -142,4 +142,11 @@ interface TextObjInterface
      */
     public function saveAs(string $pathfile);
 
+    /**
+     * Output the data in HTML-table.
+     * 
+     * @return string
+     */
+    public function table();
+
 }
