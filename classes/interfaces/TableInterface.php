@@ -149,6 +149,6 @@ interface TableInterface
      * 
      * @return string
      */
-    public function table(string $classes = '');
+    public function table(string $classes = '', string $id = '');
 
 }

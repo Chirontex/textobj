@@ -288,13 +288,13 @@ class Table implements TableInterface
 
     }
 
-    public function table(string $classes = '') : string
+    public function table(string $classes = '', string $id = '') : string
     {
 
         ob_start();
 
 ?>
-<table class="<?= $classes ?>">
+<table class="<?= $classes ?>" id="<?= $id ?>">
     <thead>
         <tr>
 <?php
