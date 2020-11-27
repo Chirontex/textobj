@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.2.5
+ *    TextObj version 0.3
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -17,11 +17,11 @@
  *    You should have received a copy of the GNU General Public License
  *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-namespace DRNoisier;
+namespace DRNoisier\TextObj;
 
 use Exception;
 
-class TextObj implements TextObjInterface
+class Table implements TableInterface
 {
 
     private $data;
