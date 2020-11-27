@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.3.2
+ *    TextObj version 0.3.3
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -189,7 +189,7 @@ class Table implements TableInterface
 
             $suite_keys = array_keys($suite);
             
-            $row_key = array_search((string)$suite[0], $this->data[$suite_keys[0]]);
+            $row_key = array_search((string)$suite[$suite_keys[0]], $this->data[$suite_keys[0]], true);
 
             if ($row_key !== false) {
 
