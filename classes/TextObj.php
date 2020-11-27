@@ -31,6 +31,7 @@ class TextObj implements TextObjInterface
     {
         
         $this->data = [];
+        $this->pathfile = '';
 
         if (!empty($pathfile)) {
 
@@ -235,6 +236,57 @@ class TextObj implements TextObjInterface
             if (isset($this->data[$key])) $this->data[$key][$row_number] = $value;
 
         }
+
+    }
+
+    public function save(string $pathfile = '') : bool
+    {
+
+        if (empty($pathfile)) {
+
+            if (empty($this->pathfile)) throw new Exception(
+                __CLASS__."::".__FUNCTION__.
+                "() — saving file was not specified.", -6
+            );
+
+            $pathfile = $this->pathfile;
+
+        }
+
+        if (substr($pathfile, -4) !== '.txt') throw new Exception(
+            __CLASS__."::".__FUNCTION__.
+            "() — invalid saving file extension.", -7
+        );
+
+        $header = $this->header();
+
+        $data = implode(';', $header)."\n";
+
+        $rows_amount = $this->countRows();
+
+        for ($i = 0; $i < $rows_amount; $i++) {
+
+            $row = [];
+
+            foreach ($header as $column_name) {
+                
+                $row[] = $this->data[$column_name][$i];
+
+            }
+
+            $data .= implode(';', $row)."\n";
+
+        }
+
+        if (file_put_contents($pathfile, $data) !== false) return true;
+        else return false;
+
+    }
+
+    public function saveAs(string $pathfile) : bool
+    {
+
+        return $this->save($pathfile);
 
     }
 

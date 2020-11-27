@@ -124,4 +124,22 @@ interface TextObjInterface
      */
     public function update(int $row_number, array $values);
 
+    /**
+     * Save data in a file.
+     * 
+     * @param string $pathfile
+     * 
+     * @return bool
+     */
+    public function save(string $pathfile = '');
+
+    /**
+     * Save method with mandatory $pathfile.
+     * 
+     * @param string $pathfile
+     * 
+     * @return bool
+     */
+    public function saveAs(string $pathfile);
+
 }
