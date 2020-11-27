@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.3.1
+ *    TextObj version 0.3.2
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -148,7 +148,7 @@ class Table implements TableInterface
             else $column_number = $this->countColumns() + $column_number;
 
             $table_1 = array_slice($this->data, 0, $column_number, true);
-            $table_2 = array_slice($this->data, $column_number + 1, null, true);
+            $table_2 = array_slice($this->data, $column_number, null, true);
 
             $insertion = [$column_name => []];
 
