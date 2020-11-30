@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.3.3
+ *    TextObj version 0.3.5
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -108,9 +108,10 @@ class Table implements TableInterface
     public function push(array $values) : void
     {
 
-        foreach ($values as $key => $value) {
+        foreach ($this->header() as $column) {
             
-            if (isset($this->data[$key])) $this->data[$key][] = (string)$value;
+            if (empty($values[$column])) $this->data[$column][] = '';
+            else $this->data[$column][] = (string)$values[$column];
 
         }
 
