@@ -115,6 +115,28 @@ interface TableInterface
     public function where(array $conds);
 
     /**
+     * Returns row numbers based on not strict conditions.
+     * Use % as a placeholder.
+     * 
+     * @param array $conds
+     * $conds structure must be like:
+     * [
+     * 
+     *  [column_name => value, ...],
+     * 
+     *  [...]
+     * 
+     * ]
+     * 
+     * Conditions united with logical AND must be in the one array.
+     * 
+     * Conditions united with logical OR must be in separate arrays.
+     * 
+     * @return array
+     */
+    public function whereLike(array $conds);
+
+    /**
      * Updates a specified row.
      * 
      * @param int $row_number
