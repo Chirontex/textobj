@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.3.5
+ *    TextObj version 0.4
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -212,6 +212,111 @@ class Table implements TableInterface
                 }
 
                 if ($match) $result[] = $row_key;
+
+            }
+
+        }
+
+        return $result;
+
+    }
+
+    public function whereLike(array $conds) : array
+    {
+
+        $result = [];
+
+        for ($i = 1; $i <= $this->countRows(); $i++) {
+
+            $row = $this->row($i);
+
+            $added = false;
+
+            foreach ($conds as $suite) {
+
+                if ($added) break;
+
+                $match = true;
+                
+                foreach ($suite as $key => $value) {
+
+                    if (empty($row[$key])) $match = false;
+                    else {
+
+                        if (strpos($value, '%') === false) $match = false;
+                        else {
+
+                            if (substr($value, 0, 1) === '%') {
+
+                                if (strpos($row[$key], $value) === false) $match = false;
+                                else {
+
+                                    if ((
+                                            strpos($row[$key], $value) +
+                                            iconv_strlen($value)
+                                        ) !== iconv_strlen($row[$key])) $match = false;
+
+                                }
+
+                            }
+
+                            if ($match && (substr($value, -1, 1) === '%')) {
+
+                                if (strpos($row[$key], $value) !== 0) $match = false;
+
+                            }
+
+                            if ($match &&
+                                (strpos(trim($value, '%'), '%') !== false)) {
+
+                                $value_exp = explode('%', trim($value, '%'));
+
+                                for ($c = 0; $c < count($value_exp); $c++) {
+
+                                    $pos = strpos($row[$key], $value_exp[$c]);
+
+                                    if ($pos === false) $match = false;
+
+                                    if ($match && ($c === 0)) {
+
+                                        if (substr($value, 0, 1) !== '%' &&
+                                            $pos !== 0) $match = false;
+
+                                    } elseif ($match && (count($value_exp) - $c === 1)) {
+
+                                        if (substr($value, -1) !== '%' &&
+                                            (
+                                                $pos +
+                                                iconv_strlen($value_exp[$c]) !== iconv_strlen($row[$key])
+                                            )) $match = false;
+
+                                    } elseif ($match) {
+
+                                        if (!($pos > strpos($row[$key], $value_exp[$c - 1]))) $match = false;
+
+                                    }
+
+                                    if (!$match) break;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    if (!$match) break;
+
+                }
+
+                if ($match) {
+
+                    $result[] = $i;
+
+                    $added = true;
+
+                }
 
             }
 
