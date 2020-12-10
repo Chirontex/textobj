@@ -1,6 +1,6 @@
 <?php
 /**
- *    TextObj version 0.4
+ *    TextObj version 0.4.1
  *    
  *    Copyright (C) 2020  Dmitry Shumilin (dr.noisier@yandex.ru)
  *
@@ -131,6 +131,19 @@ class Table implements TableInterface
         if (isset($this->data[$column_marker])) $result = $this->data[$column_marker];
 
         return $result;
+
+    }
+
+    public function deleteColumn($column_marker) : void
+    {
+
+        if (!is_string($column_marker) &&
+            !is_integer($column_marker)) throw new Exception(
+                __CLASS__."::".__FUNCTION__.
+                "() — invalid type of argument.", -3
+            );
+
+        unset($this->data[$column_marker]);
 
     }
 

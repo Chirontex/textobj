@@ -66,6 +66,15 @@ interface TableInterface
     public function column($column_marker);
 
     /**
+     * Deletes the column.
+     * 
+     * @param string|int $column_marker
+     * 
+     * @return void
+     */
+    public function deleteColumn($column_marker);
+
+    /**
      * Insert new column.
      * 
      * @param string $column_name
